@@ -1,0 +1,3 @@
+[submodule "langchain-hub"]
+	path = langchain-hub
+	url = https://github.com/hwchase17/langchain-hub.git
