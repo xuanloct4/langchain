@@ -22,4 +22,4 @@ os.environ["LANGCHAIN_SESSION"] = os.environ.get("LANGCHAIN_SESSION")
 
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+# os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
