@@ -19,7 +19,6 @@ import environment
 #         """
 
 # from langchain.chains import RetrievalQA
-# from langchain.llms import OpenAI
 # from langchain.document_loaders import TextLoader
 # loader = TextLoader('./documents/state_of_the_union.txt', encoding='utf8')
 
@@ -51,7 +50,7 @@ import environment
 
 # retriever = db.as_retriever()
 
-# qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=retriever)
+# qa = RetrievalQA.from_chain_type(llm=llm(), chain_type="stuff", retriever=retriever)
 # query = "What did the president say about Ketanji Brown Jackson"
 # print(qa.run(query))
 
@@ -91,9 +90,8 @@ import environment
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.llms import OpenAI
 from langchain.chains import RetrievalQA
-
+from llms import defaultLLM as llm
 from langchain.document_loaders import TextLoader
 loader = TextLoader("./documents/state_of_the_union.txt")
 documents = loader.load()
@@ -103,18 +101,18 @@ texts = text_splitter.split_documents(documents)
 embeddings = OpenAIEmbeddings()
 docsearch = Chroma.from_documents(texts, embeddings)
 
-qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=docsearch.as_retriever())
+qa = RetrievalQA.from_chain_type(llm=llm(), chain_type="stuff", retriever=docsearch.as_retriever())
 query = "What did the president say about Ketanji Brown Jackson"
 print(qa.run(query))
 
-qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="map_reduce", retriever=docsearch.as_retriever())
+qa = RetrievalQA.from_chain_type(llm=llm(), chain_type="map_reduce", retriever=docsearch.as_retriever())
 query = "What did the president say about Ketanji Brown Jackson"
 print(qa.run(query))
 
 
 
 from langchain.chains.question_answering import load_qa_chain
-qa_chain = load_qa_chain(OpenAI(temperature=0), chain_type="stuff")
+qa_chain = load_qa_chain(llm(), chain_type="stuff")
 qa = RetrievalQA(combine_documents_chain=qa_chain, retriever=docsearch.as_retriever())
 
 query = "What did the president say about Ketanji Brown Jackson"
@@ -133,12 +131,12 @@ PROMPT = PromptTemplate(
 )
 
 chain_type_kwargs = {"prompt": PROMPT}
-qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=docsearch.as_retriever(), chain_type_kwargs=chain_type_kwargs)
+qa = RetrievalQA.from_chain_type(llm=llm(), chain_type="stuff", retriever=docsearch.as_retriever(), chain_type_kwargs=chain_type_kwargs)
 
 query = "What did the president say about Ketanji Brown Jackson"
 print(qa.run(query))
 
-qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=docsearch.as_retriever(), return_source_documents=True)
+qa = RetrievalQA.from_chain_type(llm=llm(), chain_type="stuff", retriever=docsearch.as_retriever(), return_source_documents=True)
 query = "What did the president say about Ketanji Brown Jackson"
 result = qa({"query": query})
 print(result["result"])

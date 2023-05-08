@@ -10,9 +10,9 @@ from langchain.vectorstores.faiss import FAISS
 from langchain.embeddings import OpenAIEmbeddings
 import pickle
 
-# import environment
-from dotenv import load_dotenv
-load_dotenv() 
+# from dotenv import load_dotenv
+# load_dotenv() 
+import environment
 
 # Load Data
 loader = UnstructuredFileLoader("../documents/state_of_the_union.txt")

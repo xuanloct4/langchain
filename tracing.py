@@ -5,18 +5,16 @@ import langchain
 from langchain.agents import Tool, initialize_agent, load_tools
 from langchain.agents import AgentType
 from langchain.chat_models import ChatOpenAI
-from langchain.llms import OpenAI
-
+from llms import defaultLLM as llm
 
 ## Agent run with tracing. Ensure that OPENAI_API_KEY is set appropriately to run this example.
 # print(os.environ["OPENAI_API_KEY"])
 
-llm = OpenAI(temperature=0)
-tools = load_tools(["llm-math"], llm=llm)
+tools = load_tools(["llm-math"], llm=llm())
 
 
 agent = initialize_agent(
-    tools, llm, agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True
+    tools, llm(), agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, verbose=True
 )
 
 agent.run("What is 2 raised to .123243 power?")

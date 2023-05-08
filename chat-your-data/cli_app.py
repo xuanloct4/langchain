@@ -1,8 +1,9 @@
 import pickle
 from query_data import get_chain
-from dotenv import load_dotenv
 
-load_dotenv() 
+# from dotenv import load_dotenv
+# load_dotenv() 
+import environment
 
 if __name__ == "__main__":
     with open("vectorstore.pkl", "rb") as f:

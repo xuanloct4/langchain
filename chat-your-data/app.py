@@ -6,10 +6,9 @@ import pickle
 from query_data import get_chain
 from threading import Lock
 
-from dotenv import load_dotenv
-
-load_dotenv() 
-
+# from dotenv import load_dotenv
+# load_dotenv() 
+import environment
 
 with open("vectorstore.pkl", "rb") as f:
     vectorstore = pickle.load(f)

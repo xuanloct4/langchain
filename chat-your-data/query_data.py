@@ -2,6 +2,10 @@ from langchain.prompts.prompt import PromptTemplate
 from langchain.llms import OpenAI
 from langchain.chains import ChatVectorDBChain
 
+# from dotenv import load_dotenv
+# load_dotenv() 
+import environment
+
 _template = """Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
 You can assume the question about the most recent state of the union address.
 

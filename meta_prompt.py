@@ -2,9 +2,9 @@
 
 import environment
 
-from langchain import OpenAI, LLMChain, PromptTemplate
+from langchain import LLMChain, PromptTemplate
 from langchain.memory import ConversationBufferWindowMemory
-
+from llms import defaultLLM as llm
 
 def initialize_chain(instructions, memory=None):
     if memory is None:
@@ -23,7 +23,7 @@ def initialize_chain(instructions, memory=None):
     )
 
     chain = LLMChain(
-        llm=OpenAI(temperature=0), 
+        llm=llm(), 
         prompt=prompt, 
         verbose=True, 
         memory=ConversationBufferWindowMemory(),
@@ -53,7 +53,7 @@ def initialize_meta_chain():
     )
 
     meta_chain = LLMChain(
-        llm=OpenAI(temperature=0), 
+        llm=llm(), 
         prompt=meta_prompt, 
         verbose=True, 
     )

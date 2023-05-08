@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv() 
 
 
-os.environ["LANGCHAIN_HANDLER"] = os.environ.get("LANGCHAIN_HANDLER")
+# os.environ["LANGCHAIN_HANDLER"] = "langchain"
 
 ## Uncomment this if using hosted setup.
 
@@ -13,7 +13,7 @@ os.environ["LANGCHAIN_HANDLER"] = os.environ.get("LANGCHAIN_HANDLER")
 
 ## Uncomment this if you want traces to be recorded to "my_session" instead of default.
 
-os.environ["LANGCHAIN_SESSION"] = os.environ.get("LANGCHAIN_SESSION")
+# os.environ["LANGCHAIN_SESSION"] = "my_session"
 
 ## Better to set this environment variable in the terminal
 ## Uncomment this if using hosted version. Replace "my_api_key" with your actual API Key.

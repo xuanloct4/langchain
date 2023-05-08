@@ -10,8 +10,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter, CharacterTex
 from langchain.vectorstores import DeepLake
 from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from langchain.chat_models import ChatOpenAI
-from langchain.llms import OpenAI
 from langchain.schema import Document
+from llms import defaultLLM as llm
 
 
 # os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key:')
@@ -47,7 +47,7 @@ retriever = db.as_retriever()
 retriever.search_kwargs['distance_metric'] = 'cos'
 retriever.search_kwargs['k'] = 4
 
-qa = RetrievalQA.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=retriever, return_source_documents=False)
+qa = RetrievalQA.from_chain_type(llm=llm(), chain_type="stuff", retriever=retriever, return_source_documents=False)
 
 # What was the restaurant the group was talking about called?
 query = input("Enter query:")

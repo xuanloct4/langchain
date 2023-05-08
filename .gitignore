@@ -3,3 +3,5 @@
 venv3
 
 vqd_cache
+.chroma
+__pycache__
