@@ -12,15 +12,14 @@ from langchain.chains import ConversationalRetrievalChain, RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from langchain.schema import Document
 from llms import defaultLLM as llm
-
+from embeddings import defaultEmbeddings as embedding
 
 # os.environ['OPENAI_API_KEY'] = getpass.getpass('OpenAI API Key:')
 # os.environ['ACTIVELOOP_TOKEN'] = getpass.getpass('Activeloop Token:')
 # os.environ['ACTIVELOOP_ORG'] = getpass.getpass('Activeloop Org:')
 
 org = os.environ['ACTIVELOOP_ORG']
-embeddings = OpenAIEmbeddings()
-
+# embeddings = OpenAIEmbeddings()
 dataset_path = 'hub://' + org + '/data'
 
 with open("./documents/messages.txt") as f:
@@ -36,18 +35,17 @@ texts = text_splitter.split_documents(pages)
 
 print (texts)
 
-dataset_path = 'hub://'+org+'/data'
-embeddings = OpenAIEmbeddings()
-db = DeepLake.from_documents(texts, embeddings, dataset_path=dataset_path, overwrite=True)
+
+db = DeepLake.from_documents(texts, embedding, dataset_path=dataset_path, overwrite=True)
 
 
-db = DeepLake(dataset_path=dataset_path, read_only=True, embedding_function=embeddings)
+db = DeepLake(dataset_path=dataset_path, read_only=True, embedding_function=embedding)
 
 retriever = db.as_retriever()
 retriever.search_kwargs['distance_metric'] = 'cos'
 retriever.search_kwargs['k'] = 4
 
-qa = RetrievalQA.from_chain_type(llm=llm(), chain_type="stuff", retriever=retriever, return_source_documents=False)
+qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=False)
 
 # What was the restaurant the group was talking about called?
 query = input("Enter query:")

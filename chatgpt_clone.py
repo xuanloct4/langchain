@@ -24,7 +24,7 @@ prompt = PromptTemplate(
 )
 
 chatgpt_chain = LLMChain(
-    llm=llm(), 
+    llm=llm, 
     prompt=prompt, 
     verbose=True, 
     memory=ConversationBufferWindowMemory(k=2),
@@ -34,20 +34,20 @@ output = chatgpt_chain.predict(human_input="I want you to act as a Linux termina
 print(output)
 
 
-output = chatgpt_chain.predict(human_input="ls ~")
+# output = chatgpt_chain.predict(human_input="ls ~")
+# print(output)
+
+output = chatgpt_chain.predict(human_input="cd ~")
 print(output)
 
-# output = chatgpt_chain.predict(human_input="cd ~")
-# print(output)
+output = chatgpt_chain.predict(human_input="{Please make a file jokes.txt inside and put some jokes inside}")
+print(output)
 
-# output = chatgpt_chain.predict(human_input="{Please make a file jokes.txt inside and put some jokes inside}")
-# print(output)
+output = chatgpt_chain.predict(human_input="""echo -e "x=lambda y:y*5+3;print('Result:' + str(x(6)))" > run.py && python3 run.py""")
+print(output)
 
-# output = chatgpt_chain.predict(human_input="""echo -e "x=lambda y:y*5+3;print('Result:' + str(x(6)))" > run.py && python3 run.py""")
-# print(output)
-
-# output = chatgpt_chain.predict(human_input="""echo -e "print(list(filter(lambda x: all(x%d for d in range(2,x)),range(2,3**10)))[:10])" > run.py && python3 run.py""")
-# print(output)
+output = chatgpt_chain.predict(human_input="""echo -e "print(list(filter(lambda x: all(x%d for d in range(2,x)),range(2,3**10)))[:10])" > run.py && python3 run.py""")
+print(output)
 
 
 # docker_input = """echo -e "echo 'Hello from Docker" > entrypoint.sh && echo -e "FROM ubuntu:20.04\nCOPY entrypoint.sh entrypoint.sh\nENTRYPOINT [\"/bin/sh\",\"entrypoint.sh\"]">Dockerfile && docker build . -t my_docker_image && docker run -t my_docker_image"""

@@ -20,13 +20,6 @@ repo_id = "google/flan-t5-xl" # See https://huggingface.co/models?pipeline_tag=t
 # # Others include stabilityai/stablelm-base-alpha-3b
 # # as well as 7B parameter versions
 
-# # llm_chain_run(repo_id)
-# llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature":0, "max_length":64})
-# # Reuse the prompt and question from above.
-# llm_chain = LLMChain(prompt=prompt, llm=llm)
-# print(llm_chain.run(question))
-
-
 
 llm = HuggingFaceHub(repo_id=repo_id, model_kwargs={"temperature":0, "max_length":64})
 

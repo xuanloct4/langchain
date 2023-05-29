@@ -17,15 +17,18 @@ from langchain.experimental import BabyAGI
 from langchain.vectorstores import FAISS
 from langchain.docstore import InMemoryDocstore
 from llms import defaultLLM as llm
+from embeddings import defaultEmbeddings as embedding
 
 # Define your embedding model
-embeddings_model = OpenAIEmbeddings()
+# embedding = OpenAIEmbeddings()
+
 # Initialize the vectorstore as empty
 import faiss
 
-embedding_size = 1536
+# embedding_size = 1536   #For chatgpt OpenAI
+embedding_size = 768      #For HuggingFace
 index = faiss.IndexFlatL2(embedding_size)
-vectorstore = FAISS(embeddings_model.embed_query, index, InMemoryDocstore({}), {})
+vectorstore = FAISS(embedding.embed_query, index, InMemoryDocstore({}), {})
 
 from langchain.agents import ZeroShotAgent, Tool, AgentExecutor
 from langchain import SerpAPIWrapper, LLMChain
@@ -33,7 +36,7 @@ from langchain import SerpAPIWrapper, LLMChain
 todo_prompt = PromptTemplate.from_template(
     "You are a planner who is an expert at coming up with a todo list for a given objective. Come up with a todo list for this objective: {objective}"
 )
-todo_chain = LLMChain(llm=llm(), prompt=todo_prompt)
+todo_chain = LLMChain(llm=llm, prompt=todo_prompt)
 search = SerpAPIWrapper()
 tools = [
     Tool(
@@ -59,7 +62,7 @@ prompt = ZeroShotAgent.create_prompt(
     input_variables=["objective", "task", "context", "agent_scratchpad"],
 )
 
-llm_chain = LLMChain(llm=llm(), prompt=prompt)
+llm_chain = LLMChain(llm=llm, prompt=prompt)
 tool_names = [tool.name for tool in tools]
 agent = ZeroShotAgent(llm_chain=llm_chain, allowed_tools=tool_names)
 agent_executor = AgentExecutor.from_agent_and_tools(

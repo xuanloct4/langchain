@@ -43,4 +43,4 @@ llm = GPT4All(model=local_path, callbacks=callbacks, verbose=True)
 
 llm_chain = LLMChain(prompt=prompt, llm=llm)
 question = "Who won the FIFA World Cup in the year 1994? "
-llm_chain.run(question)
+print(llm_chain.run(question))

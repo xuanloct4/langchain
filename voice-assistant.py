@@ -1,3 +1,7 @@
+##Add this line 
+#from objc import super
+##to the top of the file <venv_dir>/lib/python3.xxx/site-packages/pyttsx3/drivers/nsss.py
+##to fix the NSSpeechDriver error in MacOSX
 
 import os
 import environment
@@ -27,7 +31,7 @@ prompt = PromptTemplate(
 
 
 chatgpt_chain = LLMChain(
-    llm=llm(), 
+    llm=llm, 
     prompt=prompt, 
     verbose=True, 
     memory=ConversationBufferWindowMemory(k=2),
@@ -43,6 +47,7 @@ from playsound import playsound
 import pyttsx3
 engine = None
 # engine = pyttsx3.init()
+engine = pyttsx3.init('dummy')
 
 
 def listen(engine):
@@ -67,17 +72,22 @@ def listen(engine):
             except Exception as e:
                 unrecognized_speech_text = f'Sorry, I didn\'t catch that. Exception was: {e}s'
                 text = unrecognized_speech_text
-            print(text)
+            spokenText = "-------Recognized text is: {0}--------".format(text)
+            print(spokenText)
 
-            
             response_text = chatgpt_chain.predict(human_input=text)
-            print(response_text)
-            audio = gTTS(text=response_text, lang="en", slow=False)
-            audio.save("example.mp3")
-            playsound("example.mp3")
-            # if engine is not None:
-            #     engine.say(response_text)
-            #     engine.runAndWait()
+            spokenText = "-------Chatgpt response text is: {0}--------".format(response_text)
+            print(spokenText)
+                
+
+def speak(text):
+    audio = gTTS(text=text, lang="en", slow=False)
+    audio.save("example.mp3")
+    playsound("example.mp3")
+    if engine is not None:
+        engine.say(text)  
+        engine.runAndWait() 
+
 
 listen(engine)
 

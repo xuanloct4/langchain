@@ -23,7 +23,7 @@ def initialize_chain(instructions, memory=None):
     )
 
     chain = LLMChain(
-        llm=llm(), 
+        llm=llm, 
         prompt=prompt, 
         verbose=True, 
         memory=ConversationBufferWindowMemory(),
@@ -53,7 +53,7 @@ def initialize_meta_chain():
     )
 
     meta_chain = LLMChain(
-        llm=llm(), 
+        llm=llm, 
         prompt=meta_prompt, 
         verbose=True, 
     )

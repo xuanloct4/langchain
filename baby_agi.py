@@ -19,15 +19,16 @@ from langchain.docstore import InMemoryDocstore
 import faiss
 
 from llms import defaultLLM as llm
+from embeddings import defaultEmbeddings as embedding
 
 # Define your embedding model
-embeddings_model = OpenAIEmbeddings()
+# embedding = OpenAIEmbeddings()
 # Initialize the vectorstore as empty
 
-
-embedding_size = 1536
+# embedding_size = 1536   #For chatgpt OpenAI
+embedding_size = 768      #For HuggingFace
 index = faiss.IndexFlatL2(embedding_size)
-vectorstore = FAISS(embeddings_model.embed_query, index, InMemoryDocstore({}), {})
+vectorstore = FAISS(embedding.embed_query, index, InMemoryDocstore({}), {})
 
 OBJECTIVE = "Write a weather report for SF today"
 
@@ -36,7 +37,7 @@ verbose = False
 # If None, will keep on going forever
 max_iterations: Optional[int] = 3
 baby_agi = BabyAGI.from_llm(
-    llm=llm(), vectorstore=vectorstore, verbose=verbose, max_iterations=max_iterations
+    llm=llm, vectorstore=vectorstore, verbose=verbose, max_iterations=max_iterations
 )
 
 baby_agi({"objective": OBJECTIVE})

@@ -19,13 +19,24 @@ tools = [
 ]
 memory = ConversationBufferMemory(memory_key="chat_history")
 
-agent_chain = initialize_agent(tools, llm(), agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION, verbose=True, memory=memory)
-# agent_chain.run(input="hi, i am bob")
+def agent_chain_run(agent_chain, query):
+    try:
+        response = agent_chain.run(input=query)
+    except ValueError as e:
+        response = str(e)
+        if not response.startswith("Could not parse LLM output: `"):
+            raise e
+        response = response.removeprefix("Could not parse LLM output: `").removesuffix("`")
 
-# agent_chain.run(input="what's my name?")
+agent_chain = initialize_agent(tools, llm, agent=AgentType.CONVERSATIONAL_REACT_DESCRIPTION, verbose=True, memory=memory)
+agent_chain.run(input="hi, i am bob")
 
-# agent_chain.run("what are some good dinners to make this week, if i like thai food?")
+agent_chain.run(input="what's my name?")
 
-# agent_chain.run(input="tell me the last letter in my name, and also tell me who won the world cup in 1978?")
+agent_chain.run("what are some good dinners to make this week, if i like thai food?")
+
+agent_chain.run(input="tell me the last letter in my name, and also tell me who won the world cup in 1978?")
 
 agent_chain.run(input="whats the current temperature in pomfret?")
+
+agent_chain_run(agent_chain,"whats the current temperature in pomfret?")

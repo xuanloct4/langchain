@@ -28,7 +28,8 @@ QA_PROMPT = PromptTemplate(template=template, input_variables=["question", "cont
 
 
 def get_chain(vectorstore):
-    llm = OpenAI(temperature=0)
+    # llm = OpenAI(temperature=0)
+    llm = defaultLLM()
     qa_chain = ChatVectorDBChain.from_llm(
         llm,
         vectorstore,
@@ -36,3 +37,11 @@ def get_chain(vectorstore):
         condense_question_prompt=CONDENSE_QUESTION_PROMPT,
     )
     return qa_chain
+
+def defaultLLM():
+    from langchain.llms import GPT4All
+    from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
+    callbacks = [StreamingStdOutCallbackHandler()]
+    local_path = '../../gpt4all/chat/ggml-gpt4all-l13b-snoozy.bin' 
+    llm = GPT4All(model=local_path, callbacks=callbacks, verbose=True)
+    return llm
