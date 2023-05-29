@@ -47,7 +47,7 @@ from playsound import playsound
 import pyttsx3
 engine = None
 # engine = pyttsx3.init()
-engine = pyttsx3.init('dummy')
+engine = pyttsx3.init()
 
 
 def listen(engine):
@@ -74,21 +74,26 @@ def listen(engine):
                 text = unrecognized_speech_text
             spokenText = "-------Recognized text is: {0}--------".format(text)
             print(spokenText)
+            speak(spokenText)
 
             response_text = chatgpt_chain.predict(human_input=text)
             spokenText = "-------Chatgpt response text is: {0}--------".format(response_text)
             print(spokenText)
+            speak(spokenText)
                 
 
 def speak(text):
     audio = gTTS(text=text, lang="en", slow=False)
     audio.save("example.mp3")
     playsound("example.mp3")
+
+def speakTTSX3(text):
     if engine is not None:
         engine.say(text)  
         engine.runAndWait() 
 
-
+# speak("What is the super string theory?")
+# speakTTSX3("What is the super string theory?")
 listen(engine)
 
 
