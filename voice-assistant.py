@@ -47,7 +47,7 @@ from playsound import playsound
 import pyttsx3
 engine = None
 # engine = pyttsx3.init()
-engine = pyttsx3.init()
+engine = pyttsx3.init('nsss')
 
 
 def listen(engine):
